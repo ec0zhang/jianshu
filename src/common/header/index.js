@@ -3,13 +3,10 @@ import {
     HeaderWrapper, Logo, Nav, NavItem, NavSearch, Addition, Button, SearchWrapper,
     SearchInfo, SearchInfoTitle, SearchInfoSwitch, SearchInfoList, SearchInfoItem,
 } from "./style";
-import {GlobalStyle} from "../static/iconfont.js";
+import {GlobalStyle} from "../static/iconfont/iconfont.js";
 import {CSSTransition} from 'react-transition-group';
 import {connect} from 'react-redux';
 import {actionCreators} from "./store";
-// import mapStateToProps from "react-redux";
-// import mapDispatchToProps from "react-redux";似乎是不需要引入的
-
 
 /**
  *  阶段代码优化
@@ -17,7 +14,7 @@ import {actionCreators} from "./store";
  * **/
 class Header extends Component {
     render() {
-        const {focused, handleInputFocus, handleInputBlur} = this.props;
+        const {focused, list, handleInputFocus, handleInputBlur} = this.props;
         return (
             <HeaderWrapper>
                 <GlobalStyle/>
@@ -38,7 +35,7 @@ class Header extends Component {
                         >
                             <NavSearch
                                 className={focused ? 'focused' : ''}
-                                onFocus={handleInputFocus}
+                                onFocus={() => handleInputFocus(list)}
                                 onBlur={handleInputBlur}
                             />
                         </CSSTransition>
@@ -60,20 +57,36 @@ class Header extends Component {
     }
 
     getListArea() {
-        const {focused} = this.props;
-        if (focused) {
+        const {focused, page, totalPage, list, mouseIn, handleMouseEnter, handleMouseLeave, handleChangePage} = this.props;
+        const newList = list.toJS();
+        const pageList = [];
+        if (newList.length) {
+            for (let i = page * 10; i < (page + 1) * 10; i++) {
+                if (newList[i]) {
+                    // 在鼠标进入这个隐藏页的时候，因为数据有变化，所以会重新渲染一次
+                    pageList.push(<SearchInfoItem key={i}>{newList[i]}</SearchInfoItem>)
+                }
+            }
+        }
+        if (focused || mouseIn) {
             return (
-                <SearchInfo>
+                <SearchInfo
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
                     <SearchInfoTitle>
                         热门搜索
-                        <SearchInfoSwitch>换一批</SearchInfoSwitch>
+                        <SearchInfoSwitch
+                            onClick={() => handleChangePage(page, totalPage, this.spinIcon)}
+                        >
+                            <span ref={(icon) => {
+                                this.spinIcon = icon;
+                            }} className="iconfont">&#xe851;</span>
+                            换一批
+                        </SearchInfoSwitch>
                     </SearchInfoTitle>
                     <SearchInfoList>
-                        {this.props.list.map((item) => {
-                            return (
-                                <SearchInfoItem key={item}>{item}</SearchInfoItem>
-                            )
-                        })}
+                        {pageList}
                     </SearchInfoList>
                 </SearchInfo>
             );
@@ -92,21 +105,53 @@ const mapStateToProps = (state) => {
         // focused: state.get('header').get('focused'),
         // getIn 方法和上面的 get 连写的方法实现的同样的内容
         focused: state.getIn(['header', 'focused']),
-        list: state.getIn(['header', 'list'])
+        list: state.getIn(['header', 'list']),
+        mouseIn: state.getIn(['header', 'mouseIn']),
+        page: state.getIn(['header', 'page']),
+        totalPage: state.getIn(['header', 'totalPage']),
     }
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleInputFocus() {
+        handleInputFocus(list) {
             // const action = SearchFocus();
             // dispatch(action);
-            dispatch(actionCreators.getList());
+            if (list.size === 0){
+                dispatch(actionCreators.getList());
+            }
+            console.log(list);
             dispatch(actionCreators.SearchFocus());
         },
 
         handleInputBlur() {
             const action = actionCreators.SearchBlur();
             dispatch(action);
+        },
+        handleMouseEnter() {
+            const action = actionCreators.MouseEnter();
+            dispatch(action);
+        },
+        handleMouseLeave() {
+            dispatch(actionCreators.MouseLeave());
+        },
+        handleChangePage(page, totalPage, spin) {
+            let originAngle = spin.style.transform.replace(/[^0-9]/ig, '');
+            // replace 这里。指的是在全局不区分大小写搜索，然后如果满足非数字，就用空字符串替代
+            if (originAngle) {
+                originAngle = parseInt(originAngle, 10);
+            } else {
+                originAngle = 0;
+            }
+
+            spin.style.transform = 'rotate(' + (originAngle + 360) + 'deg)';
+            // console.log(spin.style.transform);
+
+            // ====================== 数据更换 =================================
+            if (page < totalPage - 1) {
+                dispatch(actionCreators.ChangePage(page + 1));
+            } else {
+                dispatch(actionCreators.ChangePage(0));
+            }
         }
     }
 };

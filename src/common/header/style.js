@@ -83,6 +83,7 @@ export const NavSearch = styled('input').attrs({
     font-size:13px;
     color:#444;
     
+    
     &::placeholder:#999;
     // 该组件下的placeholder
     
@@ -126,6 +127,20 @@ export const SearchInfoTitle = styled('div')`
 export const SearchInfoSwitch = styled('span')`
     float:right;
     font-size:14px;
+    cursor:pointer;
+    .iconfont{
+        font-size:12px;
+        margin-right:3px;
+        display:inline-block;
+        float:left;
+        // transform:rotate(10deg);
+        transform-origin:center center;
+        transition:all .4s ease-in;
+    }
+    
+    :hover{
+        color:#444;
+    }
 `;
 export const SearchInfoList = styled('div')`
     
@@ -140,6 +155,11 @@ export const SearchInfoItem = styled('a')`
     margin:0 10px 10px 0;
     // line-height:30px;
     display:inline-block;  
+    
+    :hover{
+        color:#333;
+        border:#999 1px solid;
+    }
 `;
 
 
