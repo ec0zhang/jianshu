@@ -55,6 +55,11 @@ export const TopicItem = styled('div')`
 `;
 //================ List ======================
 export const ListInfo = styled('div')`
+    .aaa {
+        text-decoration: none;
+        color:#000;
+    }
+
     width:500px;
     float:left:
     h3{
@@ -90,6 +95,22 @@ export const ListItem = styled('div')`
         :hover{
             cursor:pointer;
         }
+    }
+`;
+
+export const LoadMore = styled('div')`
+    width:100%;
+    height:40px;
+    line-height:40px;
+    background:#a5a5a5;
+    text-align:center;
+    border-radius:20px;
+    color:#fff;
+    cursor:pointer;
+    margin:30px 0;
+    font-size:15px;
+    :hover{
+        background:#999;
     }
 `;
 
@@ -162,4 +183,20 @@ export const WriterItem = styled('div')`
         margin-top:-5px;
         cursor:pointer;
     }
+`;
+// ========== BackTop ================
+
+export const BackTop = styled('div')`
+    position:fixed;
+    width:80px;
+    height:50px;
+    line-height:50px;
+    text-align:center;
+    font-size:13px;
+    cursor:pointer;
+    // background:green;
+    right:80px;
+    bottom:50px;
+    color:#333;
+    border:1px solid #dcdcdc;
 `;

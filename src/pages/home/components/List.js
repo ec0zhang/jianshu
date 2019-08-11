@@ -1,25 +1,29 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
-import {ListInfo, ListItem} from '../style'
+import {Link} from "react-router-dom";
+import {ListInfo, ListItem, LoadMore} from '../style'
+import {actionCreators} from "../store";
 
-class List extends Component {
+class List extends PureComponent {
 
     render() {
+        const {list, handleMoreList, page} = this.props;
         return (
             <div>
                 {
-                    this.props.list.map((item) => {
+                    list.map((item, index) => {
                         return (
-                            <ListItem key={item.get('id')}>
+                            <ListItem key={index}>
                                 <img alt='' src={item.get('imgUrl')}/>
                                 <ListInfo>
-                                    <h3>{item.get('title')}</h3>
+                                    <h3><Link className='aaa' to={'/detail/' + item.get('id')}>{item.get('title')}</Link></h3>
                                     <p>{item.get('desc')}</p>
                                 </ListInfo>
                             </ListItem>
                         )
                     })
                 }
+                <LoadMore onClick={() => handleMoreList(page)}>加载更多</LoadMore>
             </div>
         )
     }
@@ -27,7 +31,13 @@ class List extends Component {
 
 const mapStateToProps = (state) => ({
     list: state.getIn(['home', 'articleList']),
+    page: state.getIn(['home', 'articlePage']),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+    handleMoreList(page) {
+        dispatch(actionCreators.getMoreList(page));
+    }
+});
 
-export default connect(mapStateToProps, null)(List);
+export default connect(mapStateToProps, mapDispatchToProps)(List);

@@ -20,3 +20,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
  
  使用了`react-redux`来处理数据的逻辑部分，小动画也基本完成， 
  
+ ## V 0.0.3
+ 基本实现了整个框架的所有功能。
+ 
++ 做了回到顶部的功能
++ 登录的功能，以及登录之后才能访问写文章页面的功能
+
+在网页性能的优化中，采用了`react-router-dom` 中的`Link`模块让网站变成单页
+网站；使用`loadable`让页面的整体的js文件在有需求的时候再显示，加上使用`withRouter`
+让参数获取Router里面的内容。同时，在登录部分还采用了`Redirect`让页面重定向实现了页面的跳转。

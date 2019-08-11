@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "data": {
+    "articleList": [
+      {
+        "id": 5,
+        "title": "python基础练习题30道",
+        "desc": "1、执行python脚本的两种方式 答：1>可以在python /home/xxxx.py 2>cd /home ./xxxx.py 因为py...",
+        "imgUrl": "https://upload-images.jianshu.io/upload_images/13717038-36a514dfa577db3a.png?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240"
+      },
+      {
+        "id": 6,
+        "title": "python基础练习题30道",
+        "desc": "1、执行python脚本的两种方式 答：1>可以在python /home/xxxx.py 2>cd /home ./xxxx.py 因为py...",
+        "imgUrl": "https://upload-images.jianshu.io/upload_images/13540791-8a62442df7be8c0d.jpeg?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240"
+      },
+      {
+        "id": 7,
+        "title": "python基础练习题30道",
+        "desc": "1、执行python脚本的两种方式 答：1>可以在python /home/xxxx.py 2>cd /home ./xxxx.py 因为py...",
+        "imgUrl": "https://upload-images.jianshu.io/upload_images/13717038-36a514dfa577db3a.png?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240"
+      },
+      {
+        "id": 8,
+        "title": "python基础练习题30道",
+        "desc": "1、执行python脚本的两种方式 答：1>可以在python /home/xxxx.py 2>cd /home ./xxxx.py 因为py...",
+        "imgUrl": "https://upload-images.jianshu.io/upload_images/13717038-36a514dfa577db3a.png?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240"
+      }
+    ]
+  }
+}

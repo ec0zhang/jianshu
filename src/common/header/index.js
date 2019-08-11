@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Link} from "react-router-dom";
 import {
     HeaderWrapper, Logo, Nav, NavItem, NavSearch, Addition, Button, SearchWrapper,
     SearchInfo, SearchInfoTitle, SearchInfoSwitch, SearchInfoList, SearchInfoItem,
@@ -7,22 +8,31 @@ import {GlobalStyle} from "../static/iconfont/iconfont.js";
 import {CSSTransition} from 'react-transition-group';
 import {connect} from 'react-redux';
 import {actionCreators} from "./store";
+import {actionCreators as loginActionCreators} from '../../pages/login/store/';
 
 /**
  *  阶段代码优化
  *  用解构赋值给 this.props.focused 以及其他的 this.props 变量方法赋值简化代码
  * **/
 class Header extends Component {
+
     render() {
-        const {focused, list, handleInputFocus, handleInputBlur} = this.props;
+        const {focused, sign, list, handleInputFocus, handleInputBlur, handleLogout} = this.props;
         return (
             <HeaderWrapper>
                 <GlobalStyle/>
-                <Logo href={'/'}/>
+                <Link to='/'><Logo/></Link>
                 <Nav>
                     <NavItem className='left active'>首页</NavItem>
                     <NavItem className='left'>下载App</NavItem>
-                    <NavItem className='right'>登录</NavItem>
+                    {
+                        sign ?
+                            <NavItem onClick={handleLogout} className='right'>退出</NavItem> :
+                            <Link to='/login'>
+                                <NavItem className='right'>登录</NavItem>
+                            </Link>
+                    }
+
                     <NavItem className='right'>
                         <span className="iconfont">&#xe636;</span>
                     </NavItem>
@@ -46,10 +56,12 @@ class Header extends Component {
 
                 </Nav>
                 <Addition>
-                    <Button className='write'>
-                        <span className="iconfont">&#xe616;</span>
-                        写文章
-                    </Button>
+                    <Link to='/write'>
+                        <Button className='write'>
+                            <span className="iconfont">&#xe616;</span>
+                            写文章
+                        </Button>
+                    </Link>
                     <Button className='reg'>注册</Button>
                 </Addition>
             </HeaderWrapper>
@@ -109,6 +121,7 @@ const mapStateToProps = (state) => {
         mouseIn: state.getIn(['header', 'mouseIn']),
         page: state.getIn(['header', 'page']),
         totalPage: state.getIn(['header', 'totalPage']),
+        sign: state.getIn(['login', 'sign']),
     }
 };
 const mapDispatchToProps = (dispatch) => {
@@ -116,7 +129,7 @@ const mapDispatchToProps = (dispatch) => {
         handleInputFocus(list) {
             // const action = SearchFocus();
             // dispatch(action);
-            if (list.size === 0){
+            if (list.size === 0) {
                 dispatch(actionCreators.getList());
             }
             console.log(list);
@@ -152,6 +165,9 @@ const mapDispatchToProps = (dispatch) => {
             } else {
                 dispatch(actionCreators.ChangePage(0));
             }
+        },
+        handleLogout() {
+            dispatch(loginActionCreators.getLogout())
         }
     }
 };

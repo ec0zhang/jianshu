@@ -2,11 +2,12 @@ import styled from "styled-components";
 import LogoPic from '../static/logo.png'
 
 export const HeaderWrapper = styled('div')`
+    z-index:999;
     position: relative;
     height:56px;
     border-bottom:1px solid #f0f0f0;
 `;
-export const Logo = styled('a')`
+export const Logo = styled('div')`
     position: absolute;
     top:0;
     left:0;
@@ -41,6 +42,7 @@ export const NavItem = styled('div')`
     line-height:56px;
     color:#333;
     box-sizing:border-box;
+    cursor:pointer;
 `;
 
 export const SearchWrapper = styled('div')`
@@ -179,6 +181,7 @@ export const Button = styled('div')`
     border-radius:19px;
     border:1px solid #ec6149;
     font-size:14px;
+    cursor:pointer;
     
     &.reg{
         color:#ec6149;
